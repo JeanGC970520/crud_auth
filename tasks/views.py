@@ -26,5 +26,11 @@ def signup(request):
                 return HttpResponse('User created successfully')
             except Exception as e:
                 print(e)
-                return HttpResponse('Username already exists')
-        return HttpResponse('Password do not match')
+                return render(request, 'signup.html', {
+                    'form' : UserCreationForm(),
+                    'error' : 'Username already exists'
+                })
+        return render(request, 'signup.html', {
+            'form' : UserCreationForm(),
+            'error' : 'Password do not match'
+        })
