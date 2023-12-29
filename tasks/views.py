@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm # * Formulario proporcionado por Django
 from django.contrib.auth.models import User # * Modelo proporcionado ya por Django. Aunque podemos hacer los nuestros
-from django.http import HttpResponse
+from django.contrib.auth import login # * Crea una cookie para notificar que el usario ya fue autenticado
+from django.db import IntegrityError
 # Create your views here.
 
 def home(request):
@@ -23,9 +24,11 @@ def signup(request):
                 )
                 # Guardando User en DB
                 user.save()
+                # Conserve una identificación de usuario y un backend en la solicitud.
+                # De esta manera, un usuario no tiene que volver a autenticarse en cada solicitud.
+                login(request, user)
                 return redirect('tasks') # Redireccionando a la ruta con nombre 'tasks'
-            except Exception as e:
-                print(e)
+            except IntegrityError:
                 return render(request, 'signup.html', {
                     'form' : UserCreationForm(),
                     'error' : 'Username already exists'
