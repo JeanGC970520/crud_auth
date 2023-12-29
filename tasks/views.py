@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm # * Formulario proporcionado por Django
 from django.contrib.auth.models import User # * Modelo proporcionado ya por Django. Aunque podemos hacer los nuestros
-from django.contrib.auth import login # * Crea una cookie para notificar que el usario ya fue autenticado
+# * login() crea una cookie para notificar que el usario ya fue autenticado
+# * logout() elimina la persistencia del User que haya creado el login()
+from django.contrib.auth import login, logout
 from django.db import IntegrityError
 # Create your views here.
 
@@ -40,3 +42,7 @@ def signup(request):
     
 def tasks(request):
     return render(request, 'tasks.html')
+
+def signout(request):
+    logout(request)
+    return redirect('home')

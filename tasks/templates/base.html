@@ -18,7 +18,7 @@
             {# user es un objeto global que Django crea cuando un usuario esta autenticado #}
             {% if user.is_authenticated %}
             <li>
-                <a href="{% url 'signup' %}">Logout</a>
+                <a href="{% url 'logout' %}">Logout</a>
             </li>
             {% else %}
             <li>
