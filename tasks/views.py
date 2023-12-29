@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm # * Formulario proporcionado por Django
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # * Formularios proporcionado por Django
 from django.contrib.auth.models import User # * Modelo proporcionado ya por Django. Aunque podemos hacer los nuestros
 # * login() crea una cookie para notificar que el usario ya fue autenticado
 # * logout() elimina la persistencia del User que haya creado el login()
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 # Create your views here.
 
@@ -12,6 +12,7 @@ def home(request):
 
 def signup(request):
     if request.method == 'GET':
+        # UserCreationForm() sirve para cuando se quiera crear un nuevo User
         return render(request, 'signup.html', {
             'form' : UserCreationForm(),
         })
@@ -46,3 +47,25 @@ def tasks(request):
 def signout(request):
     logout(request)
     return redirect('home')
+
+def signin(request):
+    if request.method == 'GET':
+        # AuthenticationForm() para comprobar si el usuario existe
+        return render(request, 'signin.html', {
+            'form' : AuthenticationForm(),
+        })
+    else:
+        # Verifica si las credenciale son validas en la DB
+        user = authenticate(
+            request,
+            username=request.POST['username'],
+            password=request.POST['password'],
+        )
+        if user is None:
+            return render(request, 'signin.html', {
+                'form' : AuthenticationForm(),
+                'error' : 'Username or password is incorrect'
+            })
+        # Si el User ya es valido se hace persistente la sesion
+        login(request, user)
+        return redirect('tasks')
