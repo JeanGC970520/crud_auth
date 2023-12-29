@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm # * Formulario proporcionado por Django
 from django.contrib.auth.models import User # * Modelo proporcionado ya por Django. Aunque podemos hacer los nuestros
 from django.http import HttpResponse
@@ -23,7 +23,7 @@ def signup(request):
                 )
                 # Guardando User en DB
                 user.save()
-                return HttpResponse('User created successfully')
+                return redirect('tasks') # Redireccionando a la ruta con nombre 'tasks'
             except Exception as e:
                 print(e)
                 return render(request, 'signup.html', {
@@ -34,3 +34,6 @@ def signup(request):
             'form' : UserCreationForm(),
             'error' : 'Password do not match'
         })
+    
+def tasks(request):
+    return render(request, 'tasks.html')
