@@ -51,10 +51,20 @@ def createTask(request):
             'form' : TaskForm(),
         })
     else: 
-        print(request.POST)
-        return render(request, 'create_task.html', {
-            'form' : TaskForm(),
-        })
+        # * Metodos para insertar un registro nuevo a la tabla Task:
+        # *     1.- Mediante el modelo
+        # *     2.- Mediante el mismo Form -> Utilizando este
+        try:
+            form = TaskForm(request.POST)
+            newTask = form.save(commit=False)
+            newTask.user = request.user
+            newTask.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'create_task.html', {
+                'form' : TaskForm(),
+                'error' : 'Please provide valid data '
+            })
 
 def signout(request):
     logout(request)
