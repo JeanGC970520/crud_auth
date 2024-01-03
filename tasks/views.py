@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm # * Formularios proporcionado por Django
 from django.contrib.auth.models import User # * Modelo proporcionado ya por Django. Aunque podemos hacer los nuestros
 # * login() crea una cookie para notificar que el usario ya fue autenticado
@@ -71,6 +71,12 @@ def createTask(request):
                 'form' : TaskForm(),
                 'error' : 'Please provide valid data '
             })
+
+def taskDetail(request, taskId):
+    task = get_object_or_404(Task, pk=taskId) # * pk -> primary key
+    return render(request, 'task_detail.html', {
+        'task' : task,
+    })
 
 def signout(request):
     logout(request)
