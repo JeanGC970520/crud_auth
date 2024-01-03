@@ -52,6 +52,15 @@ def tasks(request):
         'tasks' : tasks,
     })
 
+def tasksCompleted(request):
+    tasks = Task.objects.filter(
+        user=request.user, 
+        dateCompleted__isnull=False,
+    ).order_by('-dateCompleted')  # Ordenando de la fecha mas reciente a la mas antigua
+    return render(request, 'tasks.html', {
+        'tasks' : tasks,
+    })
+
 def createTask(request):
     if request.method == 'GET':
         return render(request, 'create_task.html', {

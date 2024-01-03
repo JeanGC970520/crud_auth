@@ -21,7 +21,7 @@
         </button>
     </form>
 
-    <form method="POST" action="{% url 'completeTask' task.id %}">
+    <form method="POST" action="{% url 'deleteTask' task.id %}">
         {% csrf_token %}
         <button>
             Delete

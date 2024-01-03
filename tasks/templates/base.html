@@ -15,7 +15,10 @@
             {# user es un objeto global que Django crea cuando un usuario esta autenticado #}
             {% if user.is_authenticated %}
             <li>
-                <a href="{% url 'tasks' %}">Tasks</a>
+                <a href="{% url 'tasks' %}">Tasks pending</a>
+            </li>
+            <li>
+                <a href="{% url 'tasksCompleted' %}">Tasks completed</a>
             </li>
             <li>
                 <a href="{% url 'createTask' %}">Create Task</a>

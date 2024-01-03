@@ -23,10 +23,11 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("signup/", views.signup, name="signup"),
     path("tasks/", views.tasks, name="tasks"),
+    path("tasks/completed/", views.tasksCompleted, name="tasksCompleted"),
     path("tasks/create/", views.createTask, name="createTask"),
     path("tasks/<int:taskId>/", views.taskDetail, name="taskDetail"),
-    path("tasks/<int:taskId>/complete", views.completeTask, name="completeTask"),
-    path("tasks/<int:taskId>/delete", views.deleteTask, name="deleteTask"),
+    path("tasks/<int:taskId>/complete/", views.completeTask, name="completeTask"),
+    path("tasks/<int:taskId>/delete/", views.deleteTask, name="deleteTask"),
     path("logout/", views.signout, name="logout"),
     path("signin/", views.signin, name="signin"),
 ]
