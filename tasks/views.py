@@ -73,10 +73,28 @@ def createTask(request):
             })
 
 def taskDetail(request, taskId):
-    task = get_object_or_404(Task, pk=taskId) # * pk -> primary key
-    return render(request, 'task_detail.html', {
-        'task' : task,
-    })
+    if request.method == 'GET':
+        # * Buscamos por User para asegurarse que no pueda encontrar tareas de otro usario
+        task = get_object_or_404(Task, pk=taskId, user=request.user) # * pk -> primary key
+        form = TaskForm(instance=task)
+        return render(request, 'task_detail.html', {
+            'task' : task,
+            'form' : form,
+        })
+    else:
+        # * Actualiza la tarea
+        try:
+            task = get_object_or_404(Task, pk=taskId, user=request.user) # Primero buscamos la tarea a actualizar
+            form = TaskForm(request.POST, instance=task) # Se le pasa task en instance para que actualize esa tarea
+            form.save()
+            return redirect('tasks')
+        except ValueError:
+            # ! IMPORTANTE: Posible vulnerabilidad a un error mandando task y form ya que podrian no existir.
+            return render(request, 'task_detail.html', {
+                'task' : task,
+                'form' : form,
+                'error' : 'Error updating task',
+            })
 
 def signout(request):
     logout(request)
