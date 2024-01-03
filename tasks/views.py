@@ -6,6 +6,7 @@ from django.contrib.auth.models import User # * Modelo proporcionado ya por Djan
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TaskForm
+from .models import Task
 # Create your views here.
 
 def home(request):
@@ -43,7 +44,12 @@ def signup(request):
         })
     
 def tasks(request):
-    return render(request, 'tasks.html')
+    # * Aqui en el request viene el Useer ya que en el signup() 
+    # * y en el signin() se hace persistente la autenticacion. Con el metodo login() 
+    tasks = Task.objects.filter(user=request.user, dateCompleted__isnull=True) 
+    return render(request, 'tasks.html', {
+        'tasks' : tasks,
+    })
 
 def createTask(request):
     if request.method == 'GET':
