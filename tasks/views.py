@@ -8,6 +8,9 @@ from django.db import IntegrityError
 from .forms import TaskForm
 from .models import Task
 from django.utils import timezone
+# * login_required es un decorador que solicita que para la ejecucion de la funcion que
+# * decora, un User tendra que estar autenticado.
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
@@ -43,7 +46,8 @@ def signup(request):
             'form' : UserCreationForm(),
             'error' : 'Password do not match'
         })
-    
+
+@login_required    
 def tasks(request):
     # * Aqui en el request viene el Useer ya que en el signup() 
     # * y en el signin() se hace persistente la autenticacion. Con el metodo login() 
@@ -52,6 +56,7 @@ def tasks(request):
         'tasks' : tasks,
     })
 
+@login_required
 def tasksCompleted(request):
     tasks = Task.objects.filter(
         user=request.user, 
@@ -61,6 +66,7 @@ def tasksCompleted(request):
         'tasks' : tasks,
     })
 
+@login_required
 def createTask(request):
     if request.method == 'GET':
         return render(request, 'create_task.html', {
@@ -82,6 +88,7 @@ def createTask(request):
                 'error' : 'Please provide valid data '
             })
 
+@login_required
 def taskDetail(request, taskId):
     if request.method == 'GET':
         # * Buscamos por User para asegurarse que no pueda encontrar tareas de otro usario
@@ -105,20 +112,23 @@ def taskDetail(request, taskId):
                 'form' : form,
                 'error' : 'Error updating task',
             })
-        
+
+@login_required        
 def completeTask(request, taskId):
     task = get_object_or_404(Task, pk=taskId, user=request.user)
     if request.method == 'POST':
         task.dateCompleted = timezone.now()
         task.save()
         return redirect('tasks')
-    
+
+@login_required    
 def deleteTask(request, taskId):
     task = get_object_or_404(Task, pk=taskId, user=request.user)
     if request.method == 'POST':
         task.delete()
         return redirect('tasks')
 
+@login_required
 def signout(request):
     logout(request)
     return redirect('home')

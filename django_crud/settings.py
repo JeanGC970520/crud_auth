@@ -118,6 +118,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+# * Para que Django sepa a que ruta direccionar e ir al login. 
+# * Ej: con el uso del decorador login_required
+LOGIN_URL = '/signin'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
