@@ -2,8 +2,21 @@
 
 {% block content %}
 
-<h1>Home</h1>
+<main class="container py-5">
+    <section class="card card-body">
+        <h1 class="display-1 text-center">Django app</h1>
+    
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga placeat aut expedita ea blanditiis accusamus? Rerum fugit assumenda impedit nihil quis sit rem, ipsa harum velit aliquam vitae, corrupti odit nostrum voluptate quidem quibusdam aspernatur veritatis nam distinctio dolor error doloribus voluptatibus. Excepturi cumque ab vel numquam, laudantium facere ipsum reprehenderit illum doloribus qui natus veniam expedita ipsam neque ea laborum corporis consectetur minus. Vel ipsam vero earum? Doloribus unde asperiores laborum rerum nesciunt illum impedit quis iste. Nostrum, et perspiciatis. Debitis quod sequi est facere aliquam? Optio, veritatis harum nobis, tempore saepe tempora facilis ex vero, incidunt neque quae!</p>
+        <div class="text-center">
+            <a class="btn btn-secondary" href="{% url 'signin' %}">
+                Signin
+            </a>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga placeat aut expedita ea blanditiis accusamus? Rerum fugit assumenda impedit nihil quis sit rem, ipsa harum velit aliquam vitae, corrupti odit nostrum voluptate quidem quibusdam aspernatur veritatis nam distinctio dolor error doloribus voluptatibus. Excepturi cumque ab vel numquam, laudantium facere ipsum reprehenderit illum doloribus qui natus veniam expedita ipsam neque ea laborum corporis consectetur minus. Vel ipsam vero earum? Doloribus unde asperiores laborum rerum nesciunt illum impedit quis iste. Nostrum, et perspiciatis. Debitis quod sequi est facere aliquam? Optio, veritatis harum nobis, tempore saepe tempora facilis ex vero, incidunt neque quae!</p>
+            <a class="btn btn-dark" href="{% url 'signup' %}">
+                Signup
+            </a>
+        </div>
+    </section>
+</main>
 
 {% endblock %}
